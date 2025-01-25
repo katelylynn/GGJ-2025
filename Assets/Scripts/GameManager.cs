@@ -4,8 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    private enum Phases { Utility, Shop, Combat };
-    private Phases phase;
+    private int phase; // 0: utility, 1: shop, 2: combat
 
     public int[] inventory;
 
@@ -19,7 +18,7 @@ public class GameManager : MonoBehaviour
         }
 
         // init values
-        phase = Phases.Utility;
+        phase = SceneManager.GetActiveScene().buildIndex;
         inventory = new int[] {0, 0};
 
         // keep gameobject between scenes
@@ -38,20 +37,20 @@ public class GameManager : MonoBehaviour
 
     private void LoadNextPhase()
     {
-        if (phase == Phases.Utility) 
+        if (phase == 0) 
         {
             SceneManager.LoadScene("Shop");
-            phase = Phases.Shop;
+            phase = 1;
         }
-        else if (phase == Phases.Shop)
+        else if (phase == 1)
         {
             SceneManager.LoadScene("Combat");
-            phase = Phases.Combat;
+            phase = 2;
         }
-        else if (phase == Phases.Combat)
+        else if (phase == 2)
         {
             SceneManager.LoadScene("Utility");
-            phase = Phases.Utility;
+            phase = 0;
         }
     }
 }
