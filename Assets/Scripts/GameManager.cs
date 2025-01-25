@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
         // keep gameobject between scenes
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // subscribe to events
+        EventManager.TimerCompleted += LoadNextPhase;
     }
 
     private void Update()
