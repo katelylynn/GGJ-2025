@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     private enum Phases { Utility, Shop, Combat };
     private Phases phase;
 
+    public int[] inventory;
+
     private void Awake()
     {
         // if GameManager instance already exists, destroy this duplicate
@@ -16,7 +18,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        // init values
         phase = Phases.Utility;
+        inventory = new int[] {0, 0};
 
         // keep gameobject between scenes
         Instance = this;
@@ -28,10 +32,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // for devs
         if (Input.GetKey(KeyCode.N)) LoadNextPhase();
     }
 
-    public void LoadNextPhase()
+    private void LoadNextPhase()
     {
         if (phase == Phases.Utility) 
         {
