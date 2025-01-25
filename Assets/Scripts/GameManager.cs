@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // subscribe to events
-        EventManager.PhaseCompleted += LoadNextPhase;
+        EndPhaseButton.PhaseButtonClicked += LoadNextPhase;
+        UtilityTimer.TimerCompleted += LoadNextPhase;
     }
 
     private void Update()

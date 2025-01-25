@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class UtilityTimer : MonoBehaviour
     private float time = 0.0f;
     [SerializeField] private float timeLimit = 60.0f;
     [SerializeField] private bool devDisableOption = false;
+    public static event Action TimerCompleted;
 
     void Start()
     {
@@ -18,7 +20,7 @@ public class UtilityTimer : MonoBehaviour
     {
         if (devDisableOption == true) return;
         time += Time.deltaTime;
-        if (time > timeLimit) EventManager.TriggerPhaseCompleted();
+        if (time > timeLimit) TimerCompleted?.Invoke();
         slider.value = 1 - (time/timeLimit);
     }
 }
