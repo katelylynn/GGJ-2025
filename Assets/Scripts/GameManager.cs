@@ -7,23 +7,32 @@ public class GameManager : MonoBehaviour
     private enum Phases { Utility, Shop, Combat };
     private Phases phase;
 
+    public int[] inventory;
+
     private void Awake()
     {
         // if GameManager instance already exists, destroy this duplicate
-        if (Instance != null) Destroy(gameObject);
+        if (Instance != null) 
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        // init values
         phase = Phases.Utility;
+        inventory = new int[] {0, 0};
 
         // keep gameobject between scenes
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
         // subscribe to events
-        EventManager.TimerCompleted += LoadNextPhase;
+        EventManager.PhaseCompleted += LoadNextPhase;
     }
 
     private void Update()
     {
+        // for devs
         if (Input.GetKey(KeyCode.N)) LoadNextPhase();
     }
 
