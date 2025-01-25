@@ -10,7 +10,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // if GameManager instance already exists, destroy this duplicate
-        if (Instance != null) Destroy(gameObject);
+        if (Instance != null) 
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         phase = Phases.Utility;
 
@@ -19,7 +23,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // subscribe to events
-        EventManager.TimerCompleted += LoadNextPhase;
+        EventManager.PhaseCompleted += LoadNextPhase;
     }
 
     private void Update()
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.N)) LoadNextPhase();
     }
 
-    private void LoadNextPhase()
+    public void LoadNextPhase()
     {
         if (phase == Phases.Utility) 
         {

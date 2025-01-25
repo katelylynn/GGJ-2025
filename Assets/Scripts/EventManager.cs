@@ -3,10 +3,10 @@ using UnityEngine;
 
 public static class EventManager
 {
-    public static event Action TimerCompleted;
+    public static event Action PhaseCompleted;
 
-    public static void TriggerTimerCompleted()
+    public static void TriggerPhaseCompleted()
     {
-        TimerCompleted?.Invoke();
+        PhaseCompleted?.Invoke();
     }
 }

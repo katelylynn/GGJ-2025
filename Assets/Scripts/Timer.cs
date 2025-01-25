@@ -18,7 +18,7 @@ public class UtilityTimer : MonoBehaviour
     {
         if (devDisableOption == true) return;
         time += Time.deltaTime;
-        if (time > timeLimit) EventManager.TriggerTimerCompleted();
+        if (time > timeLimit) EventManager.TriggerPhaseCompleted();
         slider.value = 1 - (time/timeLimit);
     }
 }

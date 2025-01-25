@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 10
+  devDisableOption: 1
 --- !u!1 &4007884827319827277
 GameObject:
   m_ObjectHideFlags: 0
