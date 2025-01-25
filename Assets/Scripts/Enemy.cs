@@ -1,24 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 10f; 
-    public float rotationSpeed = 100f;
+    private Transform player;
+    private float speed = 0.2f;
+    private float detectionRange = 1f; // Range to check for obstacles
+    private float avoidanceStrength = 2f; // How much it steers away from obstacles
 
-    private void Move(Vector2 movementDirection)
+    private void Start()
     {
-        // identical to player move method
-        float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
-        movementDirection.Normalize();
+        player = GameObject.FindWithTag("Player").transform;
+    }
 
-        transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
-
-        if (movementDirection != Vector2.zero)
+    private void Update()
+    {
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        
+        // Check for obstacles in front of the enemy
+        if (Physics.Raycast(transform.position, directionToPlayer, detectionRange))
         {
-            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            // If there's an obstacle, steer away from it
+            Vector3 avoidanceDirection = Vector3.Cross(directionToPlayer, Vector3.up).normalized;
+            directionToPlayer += avoidanceDirection * avoidanceStrength;
         }
+
+        // Move towards the player, while avoiding obstacles
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + directionToPlayer, speed * Time.deltaTime);
     }
 }
