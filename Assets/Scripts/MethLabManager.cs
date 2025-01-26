@@ -16,6 +16,7 @@ public class MethLabManager : MonoBehaviour
         CreateMethLabs();
     }
 
+
     private void Update()
     {
         _timer += Time.deltaTime;

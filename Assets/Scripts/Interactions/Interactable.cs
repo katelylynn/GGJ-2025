@@ -13,7 +13,7 @@ public class Interactable : Collidable
 
     protected override void HandleOnCollide(Collider2D collider)
     {
-        if (Input.anyKeyDown && !interacted)
+        if (Input.GetKeyDown(interactionKey) && !interacted)
         {
             HandleOnInteractedWith(collider.gameObject);
         } else if (!Input.GetKey(interactionKey))
