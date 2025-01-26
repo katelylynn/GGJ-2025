@@ -25,13 +25,10 @@ public class MethLabManager : MonoBehaviour
             _timer = 0f; // Reset the timer
 
             foreach (var methLab in _methLabs)
-            {
                 if (methLab != null)
                     if (methLab.GetComponent<SpawnerBehaviour>()?.count < methLabMaxResourses)
                         methLab.GetComponent<SpawnerBehaviour>()
-                            ?.Spawn();
-                Debug.Log(methLab);
-            }
+                            ?.Spawn("Uncooked");
         }
     }
 

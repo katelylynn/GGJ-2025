@@ -4,19 +4,20 @@ using Random = UnityEngine.Random;
 
 public class SpawnerBehaviour : MonoBehaviour
 {
-    // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
-    public GameObject myPrefab;
+    public GameObject outputPrefab;
     public int count;
     private readonly List<GameObject> resourses = new();
     private Rigidbody2D myRigidBody;
 
-    public void Spawn()
+    public void Spawn(string tagName)
     {
-        var spawnDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        var bounds = GetComponent<BoxCollider2D>().bounds.extents + new Vector3(.2f, .2f, .2f);
+
+        var spawnDirection = new Vector2(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y));
         var spawnPosition =
             new Vector2(transform.position.x + spawnDirection.x, transform.position.y + spawnDirection.y);
 
-        var instance = Instantiate(myPrefab, spawnPosition, Quaternion.identity);
+        var instance = Instantiate(outputPrefab, spawnPosition, Quaternion.identity);
         resourses.Add(instance);
         instance.GetComponent<Rigidbody2D>().velocity += spawnDirection * Random.Range(2f, 3f);
         count++;
