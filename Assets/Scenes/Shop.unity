@@ -392,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: cost
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: type
@@ -6187,7 +6187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: cost
-      value: 3
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: type
@@ -6363,7 +6363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: cost
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: type
@@ -6559,7 +6559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: cost
-      value: 2
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: type
@@ -6748,7 +6748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: cost
-      value: 4
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4466556201428392582, guid: a0840ebf403ea494da4acf9b5310645f, type: 3}
       propertyPath: type
