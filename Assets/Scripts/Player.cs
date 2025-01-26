@@ -1,31 +1,48 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Animator animator;
 
-    public float speed = 10f; 
-    public float rotationSpeed = 100f;
-    private int direction;
-
     private float health = 1.0f;
     [SerializeField] public static float damageAmount = 0.1f;
     public static event Action DamageTaken;
     public static event Action PlayerDied;
 
+    public float speed = 10f; 
+    private int direction;
+    Vector2 lastDirection;
+
+    private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
+    {
+        {1, new Vector2(0.32f, -0.33f)},
+        {2, new Vector2(0.32f, -0.33f)},
+        {3, new Vector2(0.32f, -0.33f)},
+        {4, new Vector2(0.32f, -0.33f)},
+        {5, new Vector2(-0.2f, -0.33f)},
+        {6, new Vector2(-0.37f, -0.33f)},
+        {7, new Vector2(-0.37f, -0.33f)},
+        {8, new Vector2(-0.37f, -0.33f)},
+    };
+    [SerializeField] private GameObject projectilePrefab;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         direction = 3;
+        lastDirection = new Vector2(1f, 0f);
     }
 
     private void Update()
     {
         direction = GetDirection();
+        Vector2 movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (movementDirection.magnitude > 0f) lastDirection = movementDirection;
         Animate(direction);
-        Move();
-        if (Input.GetKeyDown(KeyCode.Space)) Shoot();
+        Move(movementDirection);
+        if (Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
     }
 
     private int GetDirection()
@@ -51,18 +68,20 @@ public class Player : MonoBehaviour
         animator.SetInteger("direction", dir);
     }
 
-    private void Move()
+    private void Move(Vector2 movementDirection)
     {
-        Vector2 movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
         animator.SetBool("walking", movementDirection.magnitude > 0f);
         transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
     }
 
-    private void Shoot()
+    private void Shoot(int dir, Vector2 movementDirection)
     {
         animator.SetTrigger("Shoot");
+        GameObject projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]), Quaternion.identity);
+        float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     private void OnCollisionStay2D(Collision2D col)
