@@ -172,8 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443786e78b8f40a5aadb517e5456a152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputPrefab: {fileID: 3594087968373927676, guid: 6134bd9e856e041f09c387336c854190, type: 3}
-  outputPrefab: {fileID: 4191955424776431512, guid: 57de5765ef9784661b77e3f319431402, type: 3}
+  outputPrefab: {fileID: 4257224480285009983, guid: 37c3fd896f581482b9433dd97e137d93, type: 3}
   count: 0
 --- !u!114 &35451519419355648
 MonoBehaviour:
@@ -188,3 +187,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cookTime: 3
+  inputPrefab: {fileID: 3594087968373927676, guid: 6134bd9e856e041f09c387336c854190, type: 3}
