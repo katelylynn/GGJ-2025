@@ -171,5 +171,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443786e78b8f40a5aadb517e5456a152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 3594087968373927676, guid: 6134bd9e856e041f09c387336c854190, type: 3}
+  outputPrefab: {fileID: 3594087968373927676, guid: 6134bd9e856e041f09c387336c854190, type: 3}
   count: 0
