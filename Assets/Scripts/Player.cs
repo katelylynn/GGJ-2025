@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.tag == "Enemy")
         {
-            if ((health - damageAmount) * Time.deltaTime <= 0)
+            if ((health - damageAmount) * Time.deltaTime <= 0 && isDead == false)
             {
                 isDead = true;
                 animator.SetBool("walking", false);

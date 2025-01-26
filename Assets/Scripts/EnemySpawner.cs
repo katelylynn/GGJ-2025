@@ -5,37 +5,49 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
 
-    [SerializeField] private float spawnInterval = 2.0f;    // Time between spawns
+    [SerializeField] private float spawnInterval = 10.0f;    // Time between spawns
     private float spawnOffset = 0.2f;                       // Controls how far from the screen the enemies spawn
     
-    private int enemiesSpawned = 0;                         // Counter for number of enemies spawned
-    [SerializeField] private int maxEnemies = 20;           // Maximum number of enemies to spawn
+    [SerializeField] private int wave = 1;
+    [SerializeField] private int totalWaves = 4;
+    [SerializeField] private int multiplier = 5;         
 
     public static event Action EnemiesDefeated;
 
     private void Start()
     {
-        InvokeRepeating("SpawnEnemy", 0f, spawnInterval);
+        InvokeRepeating("SpawnWave", 0f, spawnInterval);
         Player.PlayerDied += () => { Destroy(gameObject); };
     }
 
     private void Update()
     {
-        if (enemiesSpawned >= maxEnemies && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) 
+        if (wave >= totalWaves && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) 
         {
             EnemiesDefeated?.Invoke();
             Destroy(gameObject);
         }
     }
 
-    private void SpawnEnemy()
+    private void SpawnWave()
     {
-        if (enemiesSpawned >= maxEnemies)  // Stop spawning after 20 enemies
+        if (wave >= totalWaves)
         {
-            CancelInvoke("SpawnEnemy");   // Stop repeating the spawn method
+            CancelInvoke("SpawnWave");
             return;
         }
 
+        Debug.Log("Wave " + wave + ": Spawning " + wave * multiplier + " enemies!");
+        for (int i = 0; i < wave * multiplier; i++)
+        {
+            SpawnEnemy();
+        }
+
+        wave++;
+    }
+
+    private void SpawnEnemy()
+    {
         // Get the camera's bounds in world space
         Camera mainCamera = Camera.main;
         float screenWidth = mainCamera.orthographicSize * mainCamera.aspect;
@@ -65,7 +77,5 @@ public class EnemySpawner : MonoBehaviour
 
         // Instantiate the enemy prefab at the off-screen position
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-
-        enemiesSpawned++;  // Increment the enemy counter
     }
 }

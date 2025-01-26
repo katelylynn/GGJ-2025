@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator LoadPhaseDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Debug.Log("called");
         LoadNextPhase();
     }
 
