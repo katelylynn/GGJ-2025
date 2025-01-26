@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,7 +9,19 @@ public class GameManager : MonoBehaviour
     public static int days; // how many full cycles of the three phases have gone by
     public int phase; // 0: utility, 1: shop, 2: combat
 
-    public int[] inventory;
+    // power, quantity owned
+    public Dictionary<PowerUpType, int> ownedPowerUps;
+
+    public enum PowerUpType
+    {
+        FIRERATE,
+        DASH,
+        MAXHEALTH,
+        MULTISHOT,
+        BIGGERBULLET
+    }
+
+    public int[] inventory; // [offenseTokens, defenseTokens]
 
     private void Awake()
     {
@@ -22,7 +35,16 @@ public class GameManager : MonoBehaviour
         // init values
         days = 1;
         phase = SceneManager.GetActiveScene().buildIndex;
-        inventory = new[] { 0, 0 };
+        inventory = new[] { 1000, 2000 };
+
+        ownedPowerUps = new Dictionary<PowerUpType, int>
+        {
+            {PowerUpType.FIRERATE, 0},
+            {PowerUpType.DASH, 0},
+            {PowerUpType.MAXHEALTH, 0},
+            {PowerUpType.MULTISHOT, 0},
+            {PowerUpType.BIGGERBULLET, 0}
+        };
 
         // keep gameobject between scenes
         Instance = this;
@@ -34,6 +56,12 @@ public class GameManager : MonoBehaviour
         Projectile.KilledEnemy += () => { IncrementInventory(new int[] { 0, 1 }); };
         Player.PlayerDied += () => { StartCoroutine(LoadPhaseDelay(1f)); };
         EnemySpawner.EnemiesDefeated += DeclareGameWin;
+    }
+
+    public void AddPowerUp(PowerUpType type) {
+        Debug.Log(this + "Player added powerup " + type);
+        ownedPowerUps[type]++;
+        Debug.Log("Player now has " + ownedPowerUps);
     }
 
     private void Update()
