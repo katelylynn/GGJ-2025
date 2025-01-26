@@ -1,11 +1,23 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    private static ScoreManager Instance;
     public TextMeshProUGUI scoreText;
     public int score;
 
+    public void Start()
+    {
+        Instance = this;
+    }
+
+    public static ScoreManager GetInstance()
+    {
+        if (Instance != null) return Instance;
+        throw new Exception("ScoreManager is null");
+    }
 
     public void IncrementScore(string tag)
     {
@@ -13,13 +25,13 @@ public class ScoreManager : MonoBehaviour
         switch (tag)
         {
             case "Resourse":
-                score += 1;
+                score += 10;
                 break;
             case "CookedResource":
-                score += 4;
+                score += 40;
                 break;
             case "Refined":
-                score += 9;
+                score += 90;
                 break;
             default:
                 Debug.LogWarning("Unknown tag: " + tag);

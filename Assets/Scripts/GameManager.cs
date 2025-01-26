@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // if GameManager instance already exists, destroy this duplicate
-        if (Instance != null) 
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         // init values
         days = 1;
         phase = SceneManager.GetActiveScene().buildIndex;
-        inventory = new int[] {0, 0};
+        inventory = new[] { 0, 0 };
 
         // keep gameobject between scenes
         Instance = this;
@@ -44,8 +44,11 @@ public class GameManager : MonoBehaviour
 
     private void LoadNextPhase()
     {
-        if (phase == 0) 
+        if (phase == 0)
         {
+            var buttency = ScoreManager.GetInstance().score;
+            inventory[0] += buttency;
+            ScoreManager.GetInstance().score = 0;
             SceneManager.LoadScene("Shop");
             phase = 1;
         }
@@ -61,7 +64,6 @@ public class GameManager : MonoBehaviour
             days++;
         }
     }
-
     private void IncrementInventory(int[] amount)
     {
         inventory[0] += amount[0];
