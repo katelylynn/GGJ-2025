@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +6,9 @@ using UnityEngine;
 public class Collidable : MonoBehaviour
 {
     [SerializeField] private ContactFilter2D filter;
-
-    public event System.Action<Collider2D> OnCollide;
+    private readonly List<Collider2D> collidedObjs = new();
 
     private Collider2D colliderObj;
-    private List<Collider2D> collidedObjs = new List<Collider2D>();
 
     protected virtual void Start()
     {
@@ -21,15 +19,16 @@ public class Collidable : MonoBehaviour
     {
         collidedObjs.Clear();
         colliderObj.OverlapCollider(filter, collidedObjs);
-        foreach (Collider2D collider in collidedObjs)
-        {
-            HandleOnCollide(collider);
-        }
+        foreach (var collider in collidedObjs) HandleOnCollide(collider);
     }
+
+    public event Action<Collider2D> OnCollide;
 
     protected virtual void HandleOnCollide(Collider2D collider)
     {
         Debug.Log("Collided with " + collider.name);
+        if (OnCollide == null)
+            return;
         OnCollide.Invoke(collider);
     }
 }
