@@ -1,16 +1,16 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     private TextMeshProUGUI tmp;
 
-    void Start()
+    private void Start()
     {
         tmp = GetComponent<TextMeshProUGUI>();
     }
 
-    void Update()
+    private void Update()
     {
         tmp.text = $"Resource A: {GameManager.Instance.inventory[0]}, Resource B: {GameManager.Instance.inventory[1]}";
     }
