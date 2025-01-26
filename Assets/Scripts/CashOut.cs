@@ -28,6 +28,8 @@ public class CashOut : MonoBehaviour
             instance.GetComponent<UITimer>().time = cookTime;
 
             var tag = other.gameObject.tag;
+            HandleTag(tag);
+
             scoreManager.GetComponent<ScoreManager>().IncrementScore(tag);
             Destroy(other.gameObject); // dont want to destroy so that we can check the tag name
             StartCoroutine(WaitForCook());
@@ -40,5 +42,28 @@ public class CashOut : MonoBehaviour
         var spawner = GetComponent<SpawnerBehaviour>();
         spawner?.Spawn("cooked");
         queue.Dequeue();
+    }
+
+    public void HandleTag(string tag)
+    {
+        switch (tag)
+        {
+            case "Refined":
+                GrowBubble(.019f);
+                break;
+
+            case "Resourse":
+                GrowBubble(.012f);
+                break;
+
+            case "CookedResource":
+                GrowBubble(.015f);
+                break;
+        }
+    }
+
+    private void GrowBubble(float factor)
+    {
+        transform.localScale += new Vector3(factor, factor, factor);
     }
 }

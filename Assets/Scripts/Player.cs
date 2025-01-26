@@ -7,33 +7,32 @@ public class Player : MonoBehaviour
     public static float damageAmount = 0.1f;
 
     public float speed = 10f;
-    private int direction;
-    Vector2 lastDirection;
 
-    public GameObject prefab;
     public GameObject canvas;
+    [SerializeField] private GameObject projectilePrefab;
     private Animator animator;
+    private int direction;
 
     private float health = 1.0f;
+
+    private bool isDead;
+    private Vector2 lastDirection;
     private bool now;
 
-    private bool isDead = false;
+    private float fireDelaySeconds = 0.5f;
+    private float lastFireTime = 0f;
 
     private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
     {
-        {1, new Vector2(0.32f, -0.33f)},
-        {2, new Vector2(0.32f, -0.33f)},
-        {3, new Vector2(0.32f, -0.33f)},
-        {4, new Vector2(0.32f, -0.33f)},
-        {5, new Vector2(-0.2f, -0.33f)},
-        {6, new Vector2(-0.37f, -0.33f)},
-        {7, new Vector2(-0.37f, -0.33f)},
-        {8, new Vector2(-0.37f, -0.33f)},
+        { 1, new Vector2(0.32f, -0.33f) },
+        { 2, new Vector2(0.32f, -0.33f) },
+        { 3, new Vector2(0.32f, -0.33f) },
+        { 4, new Vector2(0.32f, -0.33f) },
+        { 5, new Vector2(-0.2f, -0.33f) },
+        { 6, new Vector2(-0.37f, -0.33f) },
+        { 7, new Vector2(-0.37f, -0.33f) },
+        { 8, new Vector2(-0.37f, -0.33f) }
     };
-    [SerializeField] private GameObject projectilePrefab;
-
-    public static event Action DamageTaken;
-    public static event Action PlayerDied;
 
     private void Start()
     {
@@ -45,11 +44,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         direction = GetDirection();
-        Vector2 movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        var movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (movementDirection.magnitude > 0f) lastDirection = movementDirection;
         Animate(direction);
         if (isDead == false) Move(movementDirection);
-        if (isDead == false && GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
+        if (isDead == false && GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space))
+            Shoot(direction, lastDirection);
     }
 
     private void OnCollisionStay2D(Collision2D col)
@@ -71,6 +71,9 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public static event Action DamageTaken;
+    public static event Action PlayerDied;
 
     private int GetDirection()
     {
@@ -97,7 +100,7 @@ public class Player : MonoBehaviour
 
     private void Move(Vector2 movementDirection)
     {
-        float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+        var inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
         animator.SetBool("walking", movementDirection.magnitude > 0f);
         transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
@@ -105,9 +108,16 @@ public class Player : MonoBehaviour
 
     private void Shoot(int dir, Vector2 movementDirection)
     {
+        // if (Time.time - lastFireTime < fireDelaySeconds) {
+
+        // }
+
+
+
         animator.SetTrigger("Shoot");
-        GameObject projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]), Quaternion.identity);
-        float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+        var projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]),
+            Quaternion.identity);
+        var angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 }
