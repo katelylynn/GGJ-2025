@@ -25,20 +25,18 @@ public class ScoreManager : MonoBehaviour
         switch (tag)
         {
             case "Resourse":
-                score += 10;
+                GameManager.Instance.inventory[0] += 10;
                 break;
             case "CookedResource":
-                score += 40;
+                GameManager.Instance.inventory[0] += 40;
                 break;
             case "Refined":
-                score += 90;
+                GameManager.Instance.inventory[0] += 90;
                 break;
             default:
                 Debug.LogWarning("Unknown tag: " + tag);
                 return;
         }
-
-        scoreText.text = score.ToString();
     }
 
     public int GetScore()
