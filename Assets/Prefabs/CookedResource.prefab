@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb923752f411fb66901efd43f798fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 3.06
+  acceleration: 5
   maintainedDistance: 0.47
   minVelocity: 0.02
   dampingFactor: 1.71
