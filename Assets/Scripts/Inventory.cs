@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        tmp.text = $"Resource A: {GameManager.Instance.inventory[0]}, Resource B: {GameManager.Instance.inventory[1]}";
+        tmp.text =
+            $"Bubbles Blown: {GameManager.Instance.inventory[0]}, Staples Collected: {GameManager.Instance.inventory[1]}";
     }
 }
