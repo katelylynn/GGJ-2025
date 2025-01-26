@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     public GameObject canvas;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float fireRateUpgradeScaling = 1f;
     private Animator animator;
     private int direction;
 
@@ -19,7 +20,6 @@ public class Player : MonoBehaviour
     private Vector2 lastDirection;
     private bool now;
 
-    private float fireDelaySeconds = 0.5f;
     private float lastFireTime = 0f;
 
     private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
@@ -48,8 +48,15 @@ public class Player : MonoBehaviour
         if (movementDirection.magnitude > 0f) lastDirection = movementDirection;
         Animate(direction);
         if (isDead == false) Move(movementDirection);
-        if (isDead == false && GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space))
-            Shoot(direction, lastDirection);
+        if (isDead == false && GameManager.Instance.phase == 2 && Input.GetKey(KeyCode.Space)) {
+
+            if (GameManager.Instance.ownedPowerUps[GameManager.PowerUpType.MULTISHOT] > 0) {
+                TripleShoot(direction, lastDirection);
+            } else {
+                Shoot(direction, lastDirection);
+            }
+
+        }
     }
 
     private void OnCollisionStay2D(Collision2D col)
@@ -108,16 +115,52 @@ public class Player : MonoBehaviour
 
     private void Shoot(int dir, Vector2 movementDirection)
     {
-        // if (Time.time - lastFireTime < fireDelaySeconds) {
+        float delay = (1f / (1f + GameManager.Instance.ownedPowerUps[GameManager.PowerUpType.FIRERATE] * fireRateUpgradeScaling));
+        if (Time.time >= lastFireTime + delay) {
+            Debug.Log("Shooting. Current delay set to " + delay + " seconds.");
 
-        // }
+            lastFireTime = Time.time;
 
-
-
-        animator.SetTrigger("Shoot");
-        var projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]),
-            Quaternion.identity);
-        var angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            animator.SetTrigger("Shoot");
+            var projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]),
+                Quaternion.identity);
+            var angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+            projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
     }
+
+    private void TripleShoot(int dir, Vector2 movementDirection)
+    {
+        float delay = (1f / (1f + GameManager.Instance.ownedPowerUps[GameManager.PowerUpType.FIRERATE] * fireRateUpgradeScaling));
+        
+        if (Time.time >= lastFireTime + delay)
+        {
+            Debug.Log("Shooting. Current delay set to " + delay + " seconds.");
+            
+            lastFireTime = Time.time;
+
+            // Trigger the shooting animation
+            animator.SetTrigger("Shoot");
+
+            // Base angle for the direction
+            float baseAngle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+
+            // Cone spread angle
+            float spread = 10f; // Adjust for tighter or wider cone
+            
+            // Create and fire three projectiles
+            for (int i = -1; i <= 1; i++) // Loops -1, 0, 1 for the cone
+            {
+                // Calculate the angle for this projectile
+                float angle = baseAngle + (i * spread);
+
+                // Instantiate the projectile
+                var projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]), Quaternion.identity);
+
+                // Set the rotation of the projectile
+                projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            }
+        }
+    }
+
 }
