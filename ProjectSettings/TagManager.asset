@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Resourse
   - CookedResource
+  - Enemy
+  - Refined
   layers:
   - Default
   - TransparentFX

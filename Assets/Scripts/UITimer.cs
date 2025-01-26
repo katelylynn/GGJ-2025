@@ -7,14 +7,11 @@ public class UITimer : MonoBehaviour
     public float Max;
     public Image fill;
 
-    private void Start()
-    {
-    }
 
     private void Update()
     {
         time -= Time.deltaTime;
         fill.fillAmount = time / Max;
-        if (time <= 0) time = 0;
+        if (time < 0) Destroy(gameObject);
     }
 }

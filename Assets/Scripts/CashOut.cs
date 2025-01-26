@@ -2,26 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CookingContainer : MonoBehaviour
+public class CashOut : MonoBehaviour
 {
     public float cookTime = 3f;
     public GameObject inputPrefab;
     public int maxQueueLength = 5;
     public GameObject UiPreFab;
     public GameObject UiCanvas;
-    private readonly Queue<GameObject> queue = new();
-    private bool isActive;
+    public GameObject scoreManager;
 
-    private void Start()
-    {
-        Enable();
-    }
+    private readonly List<string> acceptedTags = new() { "Refined", "Resourse", "CookedResource" };
+    private readonly Queue<GameObject> queue = new();
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("this is a collision");
-
-        if (isActive && other.gameObject.CompareTag(inputPrefab.tag) && queue.Count < maxQueueLength)
+        if (acceptedTags.Contains(other.gameObject.tag) && queue.Count < maxQueueLength)
         {
             queue.Enqueue(other.gameObject);
             // Destroy(other.gameObject); // dont want to destroy so that we can check the tag name
@@ -32,22 +27,11 @@ public class CookingContainer : MonoBehaviour
             instance.GetComponent<UITimer>().Max = cookTime;
             instance.GetComponent<UITimer>().time = cookTime;
 
+            var tag = other.gameObject.tag;
+            scoreManager.GetComponent<ScoreManager>().IncrementScore(tag);
+            Destroy(other.gameObject); // dont want to destroy so that we can check the tag name
             StartCoroutine(WaitForCook());
         }
-    }
-
-    public void Enable() 
-    {
-        isActive = true;
-    }
-
-    public void Disable() 
-    {
-        isActive = false;
-    }
-
-    public void Toggle() {
-        isActive = !isActive;
     }
 
     private IEnumerator WaitForCook()
