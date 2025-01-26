@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         if (movementDirection.magnitude > 0f) lastDirection = movementDirection;
         Animate(direction);
         Move(movementDirection);
-        if (Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
+        if (GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
     }
 
     private int GetDirection()
