@@ -8,6 +8,7 @@ TagManager:
   - CookedResource
   - Enemy
   - Refined
+  - Bullet
   layers:
   - Default
   - TransparentFX

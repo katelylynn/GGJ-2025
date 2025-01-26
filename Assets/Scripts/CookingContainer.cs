@@ -14,7 +14,7 @@ public class CookingContainer : MonoBehaviour
 
     private void Start()
     {
-        Enable();
+        Disable();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
