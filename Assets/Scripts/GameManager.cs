@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static int days; // how many full cycles of the three phases have gone by
     private int phase; // 0: utility, 1: shop, 2: combat
 
     public int[] inventory;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
         }
 
         // init values
+        days = 1;
         phase = SceneManager.GetActiveScene().buildIndex;
         inventory = new int[] {0, 0};
 
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Utility");
             phase = 0;
+            days++;
         }
     }
 }
