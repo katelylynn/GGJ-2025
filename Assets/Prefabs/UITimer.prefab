@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728b676f53e2433686ac29a74bc19f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 10
-  Max: 10
+  time: 2
+  Max: 2
   fill: {fileID: 578095827600721343}
 --- !u!1 &1218822419860780055
 GameObject:
