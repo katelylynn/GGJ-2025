@@ -531,6 +531,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3624325219127249426, guid: 3dba54b097963874387242b9f876fe47, type: 3}
+      propertyPath: timeLimit
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624325219127249426, guid: 3dba54b097963874387242b9f876fe47, type: 3}
       propertyPath: devDisableOption
       value: 1
       objectReference: {fileID: 0}
@@ -768,7 +772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 589261119250246813, guid: 77fc2e57a3efa3348a015af57d10c6a8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 589261119250246813, guid: 77fc2e57a3efa3348a015af57d10c6a8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6663,7 +6667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4305732831732398247, guid: dce37f8d68e3a514aaa21b3e7c337126, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 1407.3
       objectReference: {fileID: 0}
     - target: {fileID: 4305732831732398247, guid: dce37f8d68e3a514aaa21b3e7c337126, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6856,7 +6860,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Buttency:'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
