@@ -12,7 +12,7 @@ public class KeyInputManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null)
         {
             Destroy(this.gameObject);
             return;

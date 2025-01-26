@@ -19,7 +19,10 @@ public class Player : MonoBehaviour
     private Vector2 lastDirection;
     private bool now;
 
-    private readonly Dictionary<int, Vector2> projectilePositions = new()
+    private float fireDelaySeconds = 0.5f;
+    private float lastFireTime = 0f;
+
+    private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
     {
         { 1, new Vector2(0.32f, -0.33f) },
         { 2, new Vector2(0.32f, -0.33f) },
@@ -105,6 +108,12 @@ public class Player : MonoBehaviour
 
     private void Shoot(int dir, Vector2 movementDirection)
     {
+        // if (Time.time - lastFireTime < fireDelaySeconds) {
+
+        // }
+
+
+
         animator.SetTrigger("Shoot");
         var projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]),
             Quaternion.identity);

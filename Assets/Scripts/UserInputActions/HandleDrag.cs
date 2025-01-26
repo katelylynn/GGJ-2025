@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class HandleDrag : MonoBehaviour
 {
-    [SerializeField] private KeyInputManager keyInputManager;
     [SerializeField] private KeyCode PickUpKey;
+
+    private KeyInputManager keyInputManager;
 
     public bool isDragging;
 
     void Start()
     {
         isDragging = false;
+        keyInputManager = KeyInputManager.Instance;
         keyInputManager.OnKeyDown += HandleOnKeyDown;
         keyInputManager.OnKeyUp += HandleOnKeyUp;
     }

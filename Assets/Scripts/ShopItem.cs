@@ -17,7 +17,7 @@ public class ShopItem : MonoBehaviour
 
     [SerializeField] GameManager.PowerUpType type;
     [SerializeField] int cost;
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
 
     private Interactable interactable;
 
@@ -25,6 +25,7 @@ public class ShopItem : MonoBehaviour
     {
         interactable = GetComponent<Interactable>();
         interactable.OnInteractedWith += HandleInteractedWith;
+        gameManager = GameManager.Instance;
     }
 
     public void HandleInteractedWith(Interactable other)
