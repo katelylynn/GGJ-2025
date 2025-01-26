@@ -6,11 +6,14 @@ public class Enemy : MonoBehaviour
     private float speed = 0.2f;
     private float detectionRange = 1f; // Range to check for obstacles
     private float avoidanceStrength = 2f; // How much it steers away from obstacles
+    private bool facingLeft = false; // Tracks if the enemy is facing left
+    private Animator animator;
 
     private void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
         Player.PlayerDied += () => { Destroy(gameObject); };
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -27,5 +30,18 @@ public class Enemy : MonoBehaviour
 
         // Move towards the player, while avoiding obstacles
         transform.position = Vector3.MoveTowards(transform.position, transform.position + directionToPlayer, speed * Time.deltaTime);
+
+        // Update the facing direction
+        if (directionToPlayer.x < 0 && !facingLeft)
+        {
+            facingLeft = true;
+        }
+        else if (directionToPlayer.x > 0 && facingLeft)
+        {
+            facingLeft = false;
+        }
+
+        animator.SetBool("facingLeft", facingLeft);
+        Debug.Log(animator.GetBool("facingLeft"));
     }
 }
