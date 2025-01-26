@@ -2883,6 +2883,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2521472310268921852, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 83453b125a465704ab166ef53c428b38, type: 2}
     - target: {fileID: 4288463557614578603, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -2927,6 +2931,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7195666497426053582, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: acEast
+      value: 
+      objectReference: {fileID: 7400000, guid: dcf0bb75588be84499592fc5fa28971e, type: 2}
+    - target: {fileID: 7195666497426053582, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: acWest
+      value: 
+      objectReference: {fileID: 7400000, guid: 3b59d9bef936c094d95135aa1d9635a9, type: 2}
+    - target: {fileID: 7195666497426053582, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: acNorth
+      value: 
+      objectReference: {fileID: 7400000, guid: 05dfed0d1edb22e44a6d04270da743c2, type: 2}
+    - target: {fileID: 7195666497426053582, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: acSouth
+      value: 
+      objectReference: {fileID: 7400000, guid: 7681c5fc02f93db40a7b7833d13f24fc, type: 2}
+    - target: {fileID: 7195666497426053582, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 6723493983500284645, guid: 43d93b6976d4b7d4291ce3210ef45c46, type: 3}
     - target: {fileID: 8243511464709832755, guid: b39068bf75078bc42b6fca4d05890f53, type: 3}
       propertyPath: m_Name
       value: Player
