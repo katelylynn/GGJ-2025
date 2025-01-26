@@ -88,17 +88,4 @@ public class Player : MonoBehaviour
     {
         animator.SetTrigger("Shoot");
     }
-
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Enemy") 
-        {
-            if ((health - damageAmount) * Time.deltaTime <= 0) PlayerDied?.Invoke();
-            else 
-            {
-                health -= damageAmount * Time.deltaTime;
-                DamageTaken?.Invoke();
-            }
-        }
-    }
 }
