@@ -17,14 +17,15 @@ public class Player : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        direction = 3;
     }
 
     private void Update()
     {
         direction = GetDirection();
-        Debug.Log(direction);
         Animate(direction);
         Move();
+        if (Input.GetKeyDown(KeyCode.Space)) Shoot();
     }
 
     private int GetDirection()
@@ -55,9 +56,13 @@ public class Player : MonoBehaviour
         Vector2 movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
-        Debug.Log(animator.GetBool("walking"));
         animator.SetBool("walking", movementDirection.magnitude > 0f);
         transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
+    }
+
+    private void Shoot()
+    {
+        animator.SetTrigger("Shoot");
     }
 
     private void OnCollisionStay2D(Collision2D col)
