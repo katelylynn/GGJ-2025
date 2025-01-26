@@ -10,11 +10,18 @@ public class CookingContainer : MonoBehaviour
     public GameObject UiPreFab;
     public GameObject UiCanvas;
     private readonly Queue<GameObject> queue = new();
+    private bool isActive;
+
+    private void Start()
+    {
+        Enable();
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         Debug.Log("this is a collision");
-        if (other.gameObject.CompareTag(inputPrefab.tag) && queue.Count < maxQueueLength)
+
+        if (isActive && other.gameObject.CompareTag(inputPrefab.tag) && queue.Count < maxQueueLength)
         {
             queue.Enqueue(other.gameObject);
             Destroy(other.gameObject);
@@ -26,6 +33,20 @@ public class CookingContainer : MonoBehaviour
 
             StartCoroutine(WaitForCook());
         }
+    }
+
+    public void Enable() 
+    {
+        isActive = true;
+    }
+
+    public void Disable() 
+    {
+        isActive = false;
+    }
+
+    public void Toggle() {
+        isActive = !isActive;
     }
 
     private IEnumerator WaitForCook()
