@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,9 +11,21 @@ public class EnemySpawner : MonoBehaviour
     private int enemiesSpawned = 0;                         // Counter for number of enemies spawned
     [SerializeField] private int maxEnemies = 20;           // Maximum number of enemies to spawn
 
+    public static event Action EnemiesDefeated;
+
     private void Start()
     {
         InvokeRepeating("SpawnEnemy", 0f, spawnInterval);
+        Player.PlayerDied += () => { Destroy(gameObject); };
+    }
+
+    private void Update()
+    {
+        if (enemiesSpawned >= maxEnemies && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) 
+        {
+            EnemiesDefeated?.Invoke();
+            Destroy(gameObject);
+        }
     }
 
     private void SpawnEnemy()
@@ -32,21 +45,21 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPosition = Vector3.zero;
 
         // Randomly pick a side to spawn off-screen
-        int side = Random.Range(0, 4);  // 0 = left, 1 = right, 2 = top, 3 = bottom
+        int side = UnityEngine.Random.Range(0, 4);  // 0 = left, 1 = right, 2 = top, 3 = bottom
 
         switch (side)
         {
             case 0:  // Spawn off the left
-                spawnPosition = new Vector3(-screenWidth - spawnOffset, Random.Range(-screenHeight, screenHeight), 0f);
+                spawnPosition = new Vector3(-screenWidth - spawnOffset, UnityEngine.Random.Range(-screenHeight, screenHeight), 0f);
                 break;
             case 1:  // Spawn off the right
-                spawnPosition = new Vector3(screenWidth + spawnOffset, Random.Range(-screenHeight, screenHeight), 0f);
+                spawnPosition = new Vector3(screenWidth + spawnOffset, UnityEngine.Random.Range(-screenHeight, screenHeight), 0f);
                 break;
             case 2:  // Spawn off the top
-                spawnPosition = new Vector3(Random.Range(-screenWidth, screenWidth), screenHeight + spawnOffset, 0f);
+                spawnPosition = new Vector3(UnityEngine.Random.Range(-screenWidth, screenWidth), screenHeight + spawnOffset, 0f);
                 break;
             case 3:  // Spawn off the bottom
-                spawnPosition = new Vector3(Random.Range(-screenWidth, screenWidth), -screenHeight - spawnOffset, 0f);
+                spawnPosition = new Vector3(UnityEngine.Random.Range(-screenWidth, screenWidth), -screenHeight - spawnOffset, 0f);
                 break;
         }
 

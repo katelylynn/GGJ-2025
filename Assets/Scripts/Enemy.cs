@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        Player.PlayerDied += () => { Destroy(gameObject); };
     }
 
     private void Update()

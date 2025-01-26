@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float lifetime = 3f;
     private Rigidbody2D rb;
-    private static event Action KilledEnemy;
+    public static event Action KilledEnemy;
 
     private void Start()
     {

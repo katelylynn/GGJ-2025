@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private float health = 1.0f;
     private bool now;
 
+    private bool isDead = false;
+
     private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
     {
         {1, new Vector2(0.32f, -0.33f)},
@@ -29,6 +31,9 @@ public class Player : MonoBehaviour
         {8, new Vector2(-0.37f, -0.33f)},
     };
     [SerializeField] private GameObject projectilePrefab;
+
+    public static event Action DamageTaken;
+    public static event Action PlayerDied;
 
     private void Start()
     {
@@ -43,8 +48,8 @@ public class Player : MonoBehaviour
         Vector2 movementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (movementDirection.magnitude > 0f) lastDirection = movementDirection;
         Animate(direction);
-        Move(movementDirection);
-        if (GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
+        if (isDead == false) Move(movementDirection);
+        if (isDead == false && GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
     }
 
     private void OnCollisionStay2D(Collision2D col)
@@ -53,7 +58,11 @@ public class Player : MonoBehaviour
         {
             if ((health - damageAmount) * Time.deltaTime <= 0)
             {
+                isDead = true;
+                animator.SetBool("walking", false);
+                animator.SetTrigger("PlayerDied");
                 PlayerDied?.Invoke();
+                Destroy(gameObject, 3.0f);
             }
             else
             {
@@ -62,9 +71,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    public static event Action DamageTaken;
-    public static event Action PlayerDied;
 
     private int GetDirection()
     {

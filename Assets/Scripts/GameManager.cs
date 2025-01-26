@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
         // subscribe to events
         EndPhaseButton.PhaseButtonClicked += LoadNextPhase;
         UtilityTimer.TimerCompleted += LoadNextPhase;
+        Projectile.KilledEnemy += () => { IncrementInventory(new int[] { 0, 1 }); };
+        Player.PlayerDied += () => { StartCoroutine(LoadPhaseDelay(1f)); };
+        EnemySpawner.EnemiesDefeated += DeclareGameWin;
     }
 
     private void Update()
@@ -56,5 +60,22 @@ public class GameManager : MonoBehaviour
             phase = 0;
             days++;
         }
+    }
+
+    private void IncrementInventory(int[] amount)
+    {
+        inventory[0] += amount[0];
+        inventory[1] += amount[1];
+    }
+
+    private IEnumerator LoadPhaseDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        LoadNextPhase();
+    }
+
+    private void DeclareGameWin()
+    {
+        Debug.Log("You win yay!");
     }
 }
