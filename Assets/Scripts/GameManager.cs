@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         // init values
         days = 1;
         phase = SceneManager.GetActiveScene().buildIndex;
-        inventory = new[] { 1000, 2000 };
+        inventory = new[] { 0, 0 };
 
         ownedPowerUps = new Dictionary<PowerUpType, int>
         {
