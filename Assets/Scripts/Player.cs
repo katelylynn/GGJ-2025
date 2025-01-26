@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static float damageAmount = 0.1f;
+
+    public float speed = 10f;
+    private int direction;
+    Vector2 lastDirection;
+
+    public GameObject prefab;
+    public GameObject canvas;
     private Animator animator;
 
     private float health = 1.0f;
-    [SerializeField] public static float damageAmount = 0.1f;
-    public static event Action DamageTaken;
-    public static event Action PlayerDied;
-
-    public float speed = 10f; 
-    private int direction;
-    Vector2 lastDirection;
+    private bool now;
 
     private Dictionary<int, Vector2> projectilePositions = new Dictionary<int, Vector2>
     {
@@ -45,22 +47,41 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.phase == 2 && Input.GetKeyDown(KeyCode.Space)) Shoot(direction, lastDirection);
     }
 
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            if ((health - damageAmount) * Time.deltaTime <= 0)
+            {
+                PlayerDied?.Invoke();
+            }
+            else
+            {
+                health -= damageAmount * Time.deltaTime;
+                DamageTaken?.Invoke();
+            }
+        }
+    }
+
+    public static event Action DamageTaken;
+    public static event Action PlayerDied;
+
     private int GetDirection()
     {
-        bool up = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
-        bool down = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
-        bool left = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
-        bool right = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
+        var up = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        var down = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+        var left = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        var right = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
 
-        if (up && right) return 2;  // NE
-        if (up && left) return 8;   // NW
+        if (up && right) return 2; // NE
+        if (up && left) return 8; // NW
         if (down && right) return 4; // SE
-        if (down && left) return 6;  // SW
-        if (up) return 1;           // N
-        if (right) return 3;        // E
-        if (down) return 5;         // S
-        if (left) return 7;         // W
-        return direction;           // use previous direction
+        if (down && left) return 6; // SW
+        if (up) return 1; // N
+        if (right) return 3; // E
+        if (down) return 5; // S
+        if (left) return 7; // W
+        return direction; // use previous direction
     }
 
     private void Animate(int dir)
@@ -82,18 +103,5 @@ public class Player : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, transform.TransformPoint(projectilePositions[dir]), Quaternion.identity);
         float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-    }
-
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Enemy") 
-        {
-            if ((health - damageAmount) * Time.deltaTime <= 0) PlayerDied?.Invoke();
-            else 
-            {
-                health -= damageAmount * Time.deltaTime;
-                DamageTaken?.Invoke();
-            }
-        }
     }
 }
