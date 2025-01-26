@@ -27,5 +27,9 @@ public class Projectile : MonoBehaviour
             Destroy(other.gameObject);
             KilledEnemy?.Invoke();
         }
+        else if (other.CompareTag("Player") == false)
+        {
+            Destroy(gameObject);
+        }
     }
 }
