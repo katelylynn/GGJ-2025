@@ -536,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3624325219127249426, guid: 3dba54b097963874387242b9f876fe47, type: 3}
       propertyPath: devDisableOption
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3672072905256144210, guid: 3dba54b097963874387242b9f876fe47, type: 3}
       propertyPath: m_Name
